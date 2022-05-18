@@ -10,9 +10,9 @@ type interactor struct {
 }
 
 type AuthHandler interface {
-	GenUserToken(username string) (token string, err error)
-	GetUserName(token string) (userName string, err error)
-	EncryptPassword(password string) (encryptedPassword string)
+	GenUserToken(id d.UserID) (token string, err error)
+	GetUserID(token string) (id d.UserID, err error)
+	EncryptPassword(password string) (encryptedPassword string, err error)
 	CheckPassword(password, hashedPassword string) (ok bool)
 }
 

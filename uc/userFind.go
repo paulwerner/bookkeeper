@@ -7,7 +7,7 @@ func (i interactor) UserFind(id d.UserID) (*d.User, string, error) {
 	if err != nil {
 		return nil, "", err
 	}
-	token, err := i.authHandler.GenUserToken(user.Name)
+	token, err := i.authHandler.GenUserToken(user.ID)
 	if err != nil {
 		return nil, "", err
 	}

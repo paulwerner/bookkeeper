@@ -37,7 +37,13 @@ type AccountLogic interface {
 }
 
 type TransactionLogic interface {
-	TransactionCreate(id d.TransactionID, aID d.AccountID, description *string, amount int64, currency string) (transaction *d.Transaction, err error)
+	TransactionCreate(
+		id d.TransactionID,
+		aID d.AccountID,
+		description *string,
+		amount int64,
+		currency string,
+	) (transaction *d.Transaction, err error)
 	TransactionFind(id d.TransactionID, aID d.AccountID) (transaction *d.Transaction, err error)
 }
 
@@ -48,23 +54,23 @@ type HandlerConstructor struct {
 	TransactionRW TransactionRW
 }
 
-func (self HandlerConstructor) New() Handler {
-	if self.AuthHandler == nil {
+func (hC HandlerConstructor) New() Handler {
+	if hC.AuthHandler == nil {
 		log.Fatal("missing AuthHandler")
 	}
-	if self.UserRW == nil {
+	if hC.UserRW == nil {
 		log.Fatal("missing UserRW")
 	}
-	if self.AccountRW == nil {
+	if hC.AccountRW == nil {
 		log.Fatal("missing AccountRW")
 	}
-	if self.TransactionRW == nil {
+	if hC.TransactionRW == nil {
 		log.Fatal("missing TransactionRW")
 	}
 	return interactor{
-		authHandler:   self.AuthHandler,
-		userRW:        self.UserRW,
-		accountRW:     self.AccountRW,
-		transactionRW: self.TransactionRW,
+		authHandler:   hC.AuthHandler,
+		userRW:        hC.UserRW,
+		accountRW:     hC.AccountRW,
+		transactionRW: hC.TransactionRW,
 	}
 }

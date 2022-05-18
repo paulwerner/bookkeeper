@@ -11,6 +11,6 @@ func (i interactor) UserLogin(name, password string) (user *d.User, token string
 		err = d.ErrInvalidPassword
 		return
 	}
-	token, err = i.authHandler.GenUserToken(user.Name)
+	token, err = i.authHandler.GenUserToken(user.ID)
 	return
 }

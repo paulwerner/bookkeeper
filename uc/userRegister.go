@@ -7,11 +7,15 @@ func (i interactor) UserRegister(id d.UserID, name, password string) (user *d.Us
 	if err != nil && err != d.ErrNotFound {
 		return
 	}
-	encryptedPassword := i.authHandler.EncryptPassword(password)
+	encryptedPassword, err := i.authHandler.EncryptPassword(password)
+	if err != nil {
+		return
+	}
+	
 	user, err = i.userRW.Create(id, name, encryptedPassword)
 	if err != nil {
 		return
 	}
-	token, err = i.authHandler.GenUserToken(name)
+	token, err = i.authHandler.GenUserToken(id)
 	return
 }
