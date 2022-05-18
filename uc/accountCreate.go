@@ -2,30 +2,20 @@ package uc
 
 import d "github.com/paulwerner/bookkeeper/domain"
 
-func (self interactor) AccountCreate(
-	id d.AccountID,
-	uID d.UserID,
-	name string,
-	description *string,
-	accountType d.AccountType,
-	currentBalanceValue int64,
-	currentBalanceCurrency string,
-) (*d.Account, error) {
-	_, err := self.accountRW.FindByUserAndName(uID, name)
+func (self interactor) AccountCreate(cmd AccountCreateCmd) (account *d.Account, err error) {
+	_, err = self.accountRW.FindByUserAndName(cmd.uID, cmd.name)
 	if err != nil && err != d.ErrNotFound {
-		return nil, err
+		err = d.ErrInternalError
+		return
 	}
-	account, err := self.accountRW.Create(
-		id,
-		uID,
-		name,
-		description,
-		accountType,
-		currentBalanceValue,
-		currentBalanceCurrency,
+	account, err = self.accountRW.Create(
+		cmd.id,
+		cmd.uID,
+		cmd.name,
+		cmd.description,
+		cmd.accountType,
+		cmd.currentBalanceValue,
+		cmd.currentBalanceCurrency,
 	)
-	if err != nil {
-		return nil, err
-	}
-	return account, nil
+	return
 }

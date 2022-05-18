@@ -2,18 +2,15 @@ package uc
 
 import d "github.com/paulwerner/bookkeeper/domain"
 
-func (self interactor) UserLogin(name, password string) (*d.User, string, error) {
-	user, err := self.userRW.FindByName(name)
+func (self interactor) UserLogin(cmd UserLoginCmd) (user *d.User, token string, err error) {
+	user, err = self.userRW.FindByName(cmd.name)
 	if err != nil {
-		return nil, "", err
+		return
 	}
-	if ok := self.authHandler.CheckPassword(password, user.Password); !ok {
-		return nil, "", d.ErrInvalidPassword
+	if ok := self.authHandler.CheckPassword(cmd.password, user.Password); !ok {
+		err = d.ErrInvalidPassword
+		return
 	}
-	token, err := self.authHandler.GenUserToken(user.Name)
-	if err != nil {
-		return nil, "", err
-	}
-
-	return user, token, nil
+	token, err = self.authHandler.GenUserToken(user.Name)
+	return
 }

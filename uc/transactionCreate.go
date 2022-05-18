@@ -2,22 +2,15 @@ package uc
 
 import d "github.com/paulwerner/bookkeeper/domain"
 
-func (self interactor) TransactionCreate(
-	id d.TransactionID,
-	aID d.AccountID,
-	description *string,
-	amountValue int64,
-	amountCurrency string,
-) (*d.Transaction, error) {
-	tx, err := self.transactionRW.Create(
-		id,
-		aID,
-		description,
-		amountValue,
-		amountCurrency,
-	)
-	if err != nil {
-		return nil, err
+func (self interactor) TransactionCreate(cmd TransactionCreateCmd) (tx *d.Transaction, err error) {
+	if tx, err = self.transactionRW.Create(
+		cmd.id,
+		cmd.aID,
+		cmd.description,
+		cmd.amountValue,
+		cmd.amountCurrency,
+	); err != nil {
+		err = d.ErrInternalError
 	}
-	return tx, nil
+	return
 }

@@ -2,23 +2,16 @@ package uc
 
 import d "github.com/paulwerner/bookkeeper/domain"
 
-func (self interactor) UserRegister(
-	id d.UserID,
-	name string,
-	password string,
-) (*d.User, string, error) {
-	_, err := self.userRW.FindByName(name)
+func (self interactor) UserRegister(cmd UserRegisterCmd) (user *d.User, token string, err error) {
+	_, err = self.userRW.FindByName(cmd.name)
 	if err != nil && err != d.ErrNotFound {
-		return nil, "", err
+		return
 	}
-	encryptedPassword := self.authHandler.EncryptPassword(password)
-	user, err := self.userRW.Create(id, name, encryptedPassword)
+	encryptedPassword := self.authHandler.EncryptPassword(cmd.password)
+	user, err = self.userRW.Create(cmd.id, cmd.name, encryptedPassword)
 	if err != nil {
-		return nil, "", err
+		return
 	}
-	token, err := self.authHandler.GenUserToken(name)
-	if err != nil {
-		return nil, "", err
-	}
-	return user, token, err
+	token, err = self.authHandler.GenUserToken(cmd.name)
+	return
 }
