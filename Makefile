@@ -21,7 +21,7 @@ build: depdendencies
 ci: depdendencies test
 
 test:
-	SERVER_HOST=localhost DB_HOST=localhost go test -tags testing ./...
+	SERVER_HOST=localhost DB_HOST=localhost go test -p 1 -tags testing ./...
 
 run: 
 	SERVER_HOST=localhost DB_HOST=localhost go run $(PWD)/cmd/bookkeeper-api/main.go
