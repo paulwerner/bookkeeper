@@ -14,8 +14,8 @@ type Handler interface {
 }
 
 type UserLogic interface {
-	UserRegister(cmd UserRegisterCmd) (user *d.User, token string, err error)
-	UserLogin(cmd UserLoginCmd) (user *d.User, token string, err error)
+	UserRegister(id d.UserID, name, password string) (user *d.User, token string, err error)
+	UserLogin(name, password string) (user *d.User, token string, err error)
 	UserFind(id d.UserID) (user *d.User, token string, err error)
 }
 
@@ -24,12 +24,20 @@ type AppLogic interface {
 }
 
 type AccountLogic interface {
-	AccountCreate(cmd AccountCreateCmd) (account *d.Account, err error)
+	AccountCreate(
+		id d.AccountID,
+		uID d.UserID,
+		name string,
+		description *string,
+		accountType d.AccountType,
+		currentBalanceValue int64,
+		currentBalanceCurrency string,
+	) (account *d.Account, err error)
 	AccountFind(id d.AccountID, uID d.UserID) (account *d.Account, err error)
 }
 
 type TransactionLogic interface {
-	TransactionCreate(cmd TransactionCreateCmd) (transaction *d.Transaction, err error)
+	TransactionCreate(id d.TransactionID, aID d.AccountID, description *string, amount int64, currency string) (transaction *d.Transaction, err error)
 	TransactionFind(id d.TransactionID, aID d.AccountID) (transaction *d.Transaction, err error)
 }
 
