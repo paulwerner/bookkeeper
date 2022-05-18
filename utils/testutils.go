@@ -9,9 +9,9 @@ import (
 )
 
 func ClearDB(db *sql.DB) {
-	db.Exec("DELETE FROM users")
-	db.Exec("DELETE FROM accounts")
 	db.Exec("DELETE FROM transactions")
+	db.Exec("DELETE FROM accounts")
+	db.Exec("DELETE FROM users")
 }
 
 func RandomUserID() d.UserID {
