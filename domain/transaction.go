@@ -2,10 +2,6 @@ package domain
 
 type TransactionID string
 
-func (self TransactionID) String() string {
-	return string(self)
-}
-
 type Transaction struct {
 	ID          TransactionID
 	Amount      int64

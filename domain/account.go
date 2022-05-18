@@ -2,10 +2,6 @@ package domain
 
 type AccountID string
 
-func (self AccountID) String() string {
-	return string(self)
-}
-
 type AccountType string
 
 const (
