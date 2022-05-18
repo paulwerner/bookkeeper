@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"log"
 
-	"github.com/google/uuid"
 	d "github.com/paulwerner/bookkeeper/domain"
 )
 
@@ -12,18 +11,6 @@ func ClearDB(db *sql.DB) {
 	db.Exec("DELETE FROM transactions")
 	db.Exec("DELETE FROM accounts")
 	db.Exec("DELETE FROM users")
-}
-
-func RandomUserID() d.UserID {
-	return d.UserID(uuid.New().String())
-}
-
-func RandomAccountID() d.AccountID {
-	return d.AccountID(uuid.New().String())
-}
-
-func RandomTransactionID() d.TransactionID {
-	return d.TransactionID(uuid.New().String())
 }
 
 func PopulateUser(u *d.User, db *sql.DB) {
