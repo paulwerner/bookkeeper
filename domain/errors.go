@@ -1,6 +1,8 @@
 package domain
 
 var (
+	ErrInternalError = InternalError{"internal error"}
+
 	ErrNotFound = NotFoundError{"not found"}
 
 	ErrInvalidEntity = InvalidEntityError{"invalid entity"}
@@ -13,6 +15,14 @@ var (
 
 	ErrInvalidAccessToken = InvalidAccessTokenError{"invalid access token"}
 )
+
+type InternalError struct {
+	s string
+}
+
+func (e InternalError) Error() string {
+	return e.s
+}
 
 type NotFoundError struct {
 	s string
