@@ -2,6 +2,10 @@ package domain
 
 type AccountID string
 
+func (self AccountID) String() string {
+	return string(self)
+}
+
 type AccountType string
 
 const (
@@ -31,12 +35,12 @@ func NewAccount(
 	balanceCurrency string,
 ) *Account {
 	return &Account{
-		ID:          id,
-		User:        u,
-		Name:        name,
-		Description: description,
-		Type:        accountType,
-		BalanceValue: balanceValue,
+		ID:              id,
+		User:            u,
+		Name:            name,
+		Description:     description,
+		Type:            accountType,
+		BalanceValue:    balanceValue,
 		BalanceCurrency: balanceCurrency,
 		Transactions:    make([]Transaction, 0),
 	}
