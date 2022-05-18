@@ -10,6 +10,7 @@ import (
 	"github.com/docker/go-connections/nat"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
+	_ "github.com/lib/pq"
 )
 
 func CreatePostgresTestContainer(
@@ -49,5 +50,6 @@ func CreatePostgresTestContainer(
 	if err != nil {
 		return container, db, fmt.Errorf("failed to establish database connection: %s", err)
 	}
+
 	return container, db, nil
 }
