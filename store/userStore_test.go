@@ -8,10 +8,12 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCreateUser(t *testing.T) {
+func TestUserCreate(t *testing.T) {
 	// given
+	asserts := assert.New(t)
+
 	cut := NewUserStore(db)
-	id := d.UserID("some-user-id")
+	id := utils.RandomUserID()
 	name := "homer"
 	password := "password"
 
@@ -19,20 +21,22 @@ func TestCreateUser(t *testing.T) {
 	result, err := cut.Create(id, name, password)
 
 	// then
-	assert.NoError(t, err)
-	assert.NotNil(t, result)
-	assert.Equal(t, id, result.ID)
-	assert.Equal(t, name, result.Name)
-	assert.Equal(t, password, result.Password)
+	asserts.NoError(err)
+	asserts.NotNil(result)
+	asserts.Equal(id, result.ID)
+	asserts.Equal(name, result.Name)
+	asserts.Equal(password, result.Password)
 
 	// finally
 	utils.ClearDB(db)
 }
 
-func TestFindByID(t *testing.T) {
+func TestUserFindByID(t *testing.T) {
 	// given
+	asserts := assert.New(t)
+
 	cut := NewUserStore(db)
-	id := d.UserID("some-user-id")
+	id := utils.RandomUserID()
 	name := "homer"
 	password := "password"
 	u := d.NewUser(id, name, password)
@@ -42,53 +46,59 @@ func TestFindByID(t *testing.T) {
 	result, err := cut.FindByID(id)
 
 	// then
-	assert.NoError(t, err)
-	assert.NotNil(t, result)
-	assert.Equal(t, id, result.ID)
-	assert.Equal(t, name, result.Name)
-	assert.Equal(t, password, result.Password)
+	asserts.NoError(err)
+	asserts.NotNil(result)
+	asserts.Equal(id, result.ID)
+	asserts.Equal(name, result.Name)
+	asserts.Equal(password, result.Password)
 
 	// finally
 	utils.ClearDB(db)
 }
 
-func TestFindByIDNotFound(t *testing.T) {
+func TestUserFindByIDNotFound(t *testing.T) {
 	// given
+	asserts := assert.New(t)
+
 	cut := NewUserStore(db)
-	id := d.UserID("some-user-id")
+	id := utils.RandomUserID()
 
 	// when
 	result, err := cut.FindByID(id)
 
 	// then
-	assert.Equal(t, err, d.ErrNotFound)
-	assert.Nil(t, result)
+	asserts.Equal(err, d.ErrNotFound)
+	asserts.Nil(result)
 }
 
-func TestFindByName(t *testing.T) {
+func TestUserFindByName(t *testing.T) {
 	// given
-	cut := NewUserStore(db)
-	id := d.UserID("some-user-id")
+	asserts := assert.New(t)
+
+	id := utils.RandomUserID()
 	name := "homer"
 	password := "password"
 	u := d.NewUser(id, name, password)
 	utils.PopulateUser(u, db)
 
+	cut := NewUserStore(db)
 	// when
 	result, err := cut.FindByName(name)
 
 	// then
-	assert.NoError(t, err)
-	assert.NotNil(t, result)
-	assert.Equal(t, id, result.ID)
-	assert.Equal(t, name, result.Name)
-	assert.Equal(t, password, result.Password)
+	asserts.NoError(err)
+	asserts.NotNil(result)
+	asserts.Equal(id, result.ID)
+	asserts.Equal(name, result.Name)
+	asserts.Equal(password, result.Password)
 
 	// finally
 	utils.ClearDB(db)
 }
-func TestFindByNameNotFound(t *testing.T) {
+func TestUserFindByNameNotFound(t *testing.T) {
 	// given
+	asserts := assert.New(t)
+
 	cut := NewUserStore(db)
 	name := "homer"
 
@@ -96,6 +106,6 @@ func TestFindByNameNotFound(t *testing.T) {
 	result, err := cut.FindByName(name)
 
 	// then
-	assert.Equal(t, err, d.ErrNotFound)
-	assert.Nil(t, result)
+	asserts.Equal(err, d.ErrNotFound)
+	asserts.Nil(result)
 }
