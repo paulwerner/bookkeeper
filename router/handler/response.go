@@ -72,6 +72,14 @@ func newAccountCreateResponse(a *d.Account) *accountCreateResponse {
 	return &accountCreateResponse{*newAccountResponse(a)}
 }
 
+type accountGetResponse struct {
+	Account accountResponse `json:"account"`
+}
+
+func newAccountGetResponse(a *d.Account) *accountGetResponse {
+	return &accountGetResponse{*newAccountResponse(a)}
+}
+
 type accountsGetResponse struct {
 	Accounts []accountResponse `json:"accounts"`
 }

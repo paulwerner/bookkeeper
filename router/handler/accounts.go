@@ -61,3 +61,25 @@ func (h *Handler) AccountsGet(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).
 		JSON(newAccountsGetResponse(accounts))
 }
+
+func (h *Handler) AccountGet(c *fiber.Ctx) error {
+	token, err := getJWT(c.Get("Authorization"))
+	if err != nil {
+		errBody, sc := newErrorResponse(err)
+		return c.Status(sc).JSON(errBody)
+	}
+
+	uID, err := utils.GetUserIDFromToken(token)
+	if err != nil {
+		errBody, sc := newErrorResponse(err)
+		return c.Status(sc).JSON(errBody)
+	}
+	aID := d.AccountID(c.Params("account_id"))
+	account, err := h.useCases.AccountFind(aID, uID)
+	if err != nil {
+		errBody, sc := newErrorResponse(err)
+		return c.Status(sc).JSON(errBody)
+	}
+	return c.Status(fiber.StatusOK).
+		JSON(newAccountGetResponse(account))
+}
