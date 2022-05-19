@@ -24,15 +24,7 @@ type AppLogic interface {
 }
 
 type AccountLogic interface {
-	AccountCreate(
-		id d.AccountID,
-		uID d.UserID,
-		name string,
-		description *string,
-		accountType d.AccountType,
-		currentBalanceValue int64,
-		currentBalanceCurrency string,
-	) (account *d.Account, err error)
+	AccountCreate(a d.Account) (account *d.Account, err error)
 	AccountFind(id d.AccountID, uID d.UserID) (account *d.Account, err error)
 }
 
