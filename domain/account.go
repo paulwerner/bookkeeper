@@ -18,7 +18,6 @@ type Account struct {
 	Type            AccountType
 	BalanceValue    int64
 	BalanceCurrency string
-	Transactions    []Transaction
 }
 
 func NewAccount(
@@ -38,6 +37,5 @@ func NewAccount(
 		Type:            accountType,
 		BalanceValue:    balanceValue,
 		BalanceCurrency: balanceCurrency,
-		Transactions:    make([]Transaction, 0),
 	}
 }
