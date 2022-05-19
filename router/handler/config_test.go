@@ -31,7 +31,7 @@ func TestAppConfigGet(t *testing.T) {
 	asserts.NoError(err)
 	asserts.Equal(http.StatusOK, resp.StatusCode)
 
-	var respBody appConfigResponse
+	var respBody configResponse
 	json.Unmarshal(body, &respBody)
 	asserts.Equal(3, len(respBody.SupportedAccountTypes))
 	asserts.Equal(d.CHECKING, respBody.SupportedAccountTypes[0])

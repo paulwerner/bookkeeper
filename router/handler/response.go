@@ -34,13 +34,13 @@ func newUserLoginResponse(u *d.User, token string) *userLoginResponse {
 	return &resp
 }
 
-// App Config
-type appConfigResponse struct {
+// Config
+type configResponse struct {
 	SupportedAccountTypes []d.AccountType `json:"supported_account_types"`
 }
 
-func newAppConfigResponse(c *d.AppConfig) *appConfigResponse {
-	return &appConfigResponse{
+func newConfigResponse(c *d.AppConfig) *configResponse {
+	return &configResponse{
 		SupportedAccountTypes: c.SupportedAccountTypes,
 	}
 }

@@ -8,5 +8,6 @@ func (h *Handler) ConfigGet(c *fiber.Ctx) error {
 		errBody, sc := newErrorResponse(err)
 		return c.Status(sc).JSON(errBody)
 	}
-	return c.Status(fiber.StatusOK).JSON(newAppConfigResponse(conf))
+	return c.Status(fiber.StatusOK).
+		JSON(newConfigResponse(conf))
 }
