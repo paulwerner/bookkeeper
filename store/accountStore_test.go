@@ -10,6 +10,7 @@ import (
 
 func TestAccountCreateAccountWithoutDescription(t *testing.T) {
 	// given
+	defer utils.ClearDB(db)
 	asserts := assert.New(t)
 
 	id := utils.RandomAccountID()
@@ -35,15 +36,11 @@ func TestAccountCreateAccountWithoutDescription(t *testing.T) {
 	asserts.Equal(accountType, result.Type)
 	asserts.Equal(balanceValue, result.BalanceValue)
 	asserts.Equal(balanceCurrency, result.BalanceCurrency)
-
-	// finally
-	utils.ClearDB(db)
 }
 
 func TestAccountCreateAccountWithDescription(t *testing.T) {
 	// given
-	tx, _ := db.Begin()
-	defer tx.Rollback()
+	defer utils.ClearDB(db)
 	asserts := assert.New(t)
 
 	id := utils.RandomAccountID()
@@ -70,15 +67,11 @@ func TestAccountCreateAccountWithDescription(t *testing.T) {
 	asserts.Equal(accountType, result.Type)
 	asserts.Equal(balanceValue, result.BalanceValue)
 	asserts.Equal(balanceCurrency, result.BalanceCurrency)
-
-	// finally
-	utils.ClearDB(db)
 }
 
 func TestAccountFindByIDAndUser(t *testing.T) {
 	// given
-	tx, _ := db.Begin()
-	defer tx.Rollback()
+	defer utils.ClearDB(db)
 	asserts := assert.New(t)
 
 	id := utils.RandomAccountID()
@@ -108,15 +101,11 @@ func TestAccountFindByIDAndUser(t *testing.T) {
 	asserts.Equal(accountType, result.Type)
 	asserts.Equal(balanceValue, result.BalanceValue)
 	asserts.Equal(balanceCurrency, result.BalanceCurrency)
-
-	// finally
-	utils.ClearDB(db)
 }
 
 func TestAccountFindByIDAndUserNotFound(t *testing.T) {
 	// given
-	tx, _ := db.Begin()
-	defer tx.Rollback()
+	defer utils.ClearDB(db)
 	asserts := assert.New(t)
 
 	id := utils.RandomAccountID()
@@ -130,15 +119,11 @@ func TestAccountFindByIDAndUserNotFound(t *testing.T) {
 	// then
 	asserts.Equal(d.ErrNotFound, err)
 	asserts.Nil(result)
-
-	// finally
-	utils.ClearDB(db)
 }
 
 func TestAccountFindByUserAndName(t *testing.T) {
 	// given
-	tx, _ := db.Begin()
-	defer tx.Rollback()
+	defer utils.ClearDB(db)
 	asserts := assert.New(t)
 
 	id := utils.RandomAccountID()
@@ -168,9 +153,6 @@ func TestAccountFindByUserAndName(t *testing.T) {
 	asserts.Equal(accountType, result.Type)
 	asserts.Equal(balanceValue, result.BalanceValue)
 	asserts.Equal(balanceCurrency, result.BalanceCurrency)
-
-	// finally
-	utils.ClearDB(db)
 }
 
 func TestAccountFindByUserAndNameNotFound(t *testing.T) {
@@ -188,7 +170,4 @@ func TestAccountFindByUserAndNameNotFound(t *testing.T) {
 	// then
 	asserts.Equal(d.ErrNotFound, err)
 	asserts.Nil(result)
-
-	// finally
-	utils.ClearDB(db)
 }

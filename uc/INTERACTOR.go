@@ -32,6 +32,7 @@ type AccountRW interface {
 		currentBalanceValue int64,
 		currentBalanceCurrency string,
 	) (account *d.Account, err error)
+	FindAll(uID d.UserID) (accounts []d.Account, err error)
 	FindByUserAndName(uID d.UserID, name string) (account *d.Account, err error)
 	FindByIDAndUser(id d.AccountID, uID d.UserID) (account *d.Account, err error)
 }

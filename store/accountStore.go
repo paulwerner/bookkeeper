@@ -41,6 +41,33 @@ func (as *accountStore) Create(
 	return as.FindByIDAndUser(id, uID)
 }
 
+func (as *accountStore) FindAll(uID d.UserID) (accounts []d.Account, err error) {
+	sqlStatement := `SELECT 
+		id,
+		name,
+		description,
+		type,
+		balance_value,
+		balance_currency
+	FROM accounts
+	WHERE user_id=$1`
+	rows, err := as.db.Query(sqlStatement, uID)
+	if err != nil && err != sql.ErrNoRows {
+		err = d.ErrInternalError
+		return
+	}
+	for rows.Next() {
+		var account d.Account
+		err = rows.Scan(&account.ID, &account.Name, &account.Description, &account.Type, &account.BalanceValue, &account.BalanceCurrency)
+		if err != nil {
+			err = d.ErrInternalError
+			return
+		}
+		accounts = append(accounts, account)
+	}
+	return
+}
+
 func (as *accountStore) FindByIDAndUser(id d.AccountID, uID d.UserID) (*d.Account, error) {
 	var account d.Account
 	sqlStatement := `SELECT 

@@ -18,6 +18,8 @@ CREATE TABLE IF NOT EXISTS accounts(
 
 CREATE INDEX idx_accounts_id_user_id ON accounts(id, user_id);
 
+CREATE INDEX idx_accounts_user_id ON accounts(user_id);
+
 CREATE TABLE IF NOT EXISTS transactions(
     id VARCHAR PRIMARY KEY NOT NULL,
     account_id VARCHAR NOT NULL,

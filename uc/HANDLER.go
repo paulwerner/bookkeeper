@@ -25,6 +25,7 @@ type AppLogic interface {
 
 type AccountLogic interface {
 	AccountCreate(a d.Account) (account *d.Account, err error)
+	AccountsFind(uID d.UserID) (account []d.Account, err error)
 	AccountFind(id d.AccountID, uID d.UserID) (account *d.Account, err error)
 }
 
