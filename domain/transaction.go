@@ -4,21 +4,24 @@ type TransactionID string
 
 type Transaction struct {
 	ID          TransactionID
+	Account     Account
+	Description *string
 	Amount      int64
 	Currency    string
-	Description *string
 }
 
 func NewTransaction(
 	id TransactionID,
+	a Account,
+	description *string,
 	amount int64,
 	currency string,
-	description *string,
 ) *Transaction {
 	return &Transaction{
 		ID:          id,
+		Account:     a,
+		Description: description,
 		Amount:      amount,
 		Currency:    currency,
-		Description: description,
 	}
 }

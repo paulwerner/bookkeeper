@@ -36,3 +36,17 @@ func PopulateAccount(a *d.Account, db *sql.DB) {
 		log.Fatal(err)
 	}
 }
+
+func PopulateTransaction(tx *d.Transaction, db *sql.DB) {
+	sqlStatement := `INSERT INTO transactions (
+		id, 
+		account_id, 
+		description, 
+		amount, 
+		currency
+	) VALUES ($1, $2, $3, $4, $5)`
+	_, err := db.Exec(sqlStatement, tx.ID, tx.Account.ID, tx.Description, tx.Amount, tx.Currency)
+	if err != nil {
+		log.Fatal(err)
+	}
+}

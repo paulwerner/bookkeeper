@@ -8,15 +8,26 @@ import (
 func (h *Handler) Register(r *fiber.App) {
 	jwtMW := mw.NewJWT()
 	v1 := r.Group("/api")
+	
+	// users
 	guestUsers := v1.Group("/users")
 	guestUsers.Post("", h.SignUp)
 	guestUsers.Post("/login", h.Login)
 
+	// config
 	app := v1.Group("/config", jwtMW)
 	app.Get("", h.ConfigGet)
 
+	// accounts
 	accounts := v1.Group("/accounts", jwtMW)
 	accounts.Post("", h.AccountsCreate)
 	accounts.Get("", h.AccountsGet)
-	accounts.Get("/:account_id", h.AccountGet)
+
+	account := accounts.Group("/:account_id", jwtMW)
+	account.Get("/", h.AccountGet)
+
+	// transactions
+	transactions := account.Group("/transactions", jwtMW)
+	transactions.Get("/:transaction_id",h.TransactionGet)
+
 }

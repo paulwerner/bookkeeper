@@ -14,7 +14,7 @@ type userSignUpResponse struct {
 }
 
 func newUserSignUpResponse(u *d.User, token string) *userSignUpResponse {
-	var resp  userSignUpResponse
+	var resp userSignUpResponse
 	resp.User.Name = u.Name
 	resp.Token = token
 	return &resp
@@ -28,7 +28,7 @@ type userLoginResponse struct {
 }
 
 func newUserLoginResponse(u *d.User, token string) *userLoginResponse {
-	var resp  userLoginResponse
+	var resp userLoginResponse
 	resp.User.Name = u.Name
 	resp.Token = token
 	return &resp
@@ -85,9 +85,32 @@ type accountsGetResponse struct {
 }
 
 func newAccountsGetResponse(accounts []d.Account) *accountsGetResponse {
-	var accountsGetResponse  accountsGetResponse
+	var accountsGetResponse accountsGetResponse
 	for _, a := range accounts {
 		accountsGetResponse.Accounts = append(accountsGetResponse.Accounts, *newAccountResponse(&a))
 	}
 	return &accountsGetResponse
+}
+
+// Transactions
+type transactionResponse struct {
+	ID              d.TransactionID `json:"id"`
+	Description     *string         `json:"description"`
+	AmountFormatted string          `json:"amount_formatted"`
+}
+
+func newTransactionResponse(tx *d.Transaction) *transactionResponse {
+	return &transactionResponse{
+		ID:              tx.ID,
+		Description:     tx.Description,
+		AmountFormatted: money.New(tx.Amount, tx.Currency).Display(),
+	}
+}
+
+type transactionGetResponse struct {
+	Transaction transactionResponse `json:"transaction"`
+}
+
+func newTransactionGetResponse(tx *d.Transaction) *transactionGetResponse {
+	return &transactionGetResponse{*newTransactionResponse(tx)}
 }

@@ -18,6 +18,7 @@ type AuthHandler interface {
 
 type UserRW interface {
 	Create(id d.UserID, name, password string) (user *d.User, err error)
+	Exists(id d.UserID) (ok bool, err error)
 	FindByID(id d.UserID) (user *d.User, err error)
 	FindByName(name string) (user *d.User, err error)
 }

@@ -16,6 +16,7 @@ type Handler interface {
 type UserLogic interface {
 	UserRegister(id d.UserID, name, password string) (user *d.User, token string, err error)
 	UserLogin(name, password string) (user *d.User, token string, err error)
+	UserExists(id d.UserID) (ok bool)
 	UserFind(id d.UserID) (user *d.User, token string, err error)
 }
 
