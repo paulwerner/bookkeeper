@@ -1,6 +1,9 @@
 package handler
 
-import d "github.com/paulwerner/bookkeeper/domain"
+import (
+	"github.com/Rhymond/go-money"
+	d "github.com/paulwerner/bookkeeper/domain"
+)
 
 type userSignUpResponse struct {
 	User struct {
@@ -38,4 +41,23 @@ func newAppConfigResponse(c *d.AppConfig) *appConfigResponse {
 	return &appConfigResponse{
 		SupportedAccountTypes: c.SupportedAccountTypes,
 	}
+}
+
+type accountCreateResponse struct {
+	Account struct {
+		ID               d.AccountID   `json:"id"`
+		Name             string        `json:"name"`
+		Description      *string       `json:"description"`
+		Type             d.AccountType `json:"type"`
+		BalanceFormatted string        `json:"balance_formatted"`
+	} `json:"account"`
+}
+
+func newAccountCreateResponse(a *d.Account) *accountCreateResponse {
+	resp := accountCreateResponse{}
+	resp.Account.ID = a.ID
+	resp.Account.Name = a.Name
+	resp.Account.Description = a.Description
+	resp.Account.BalanceFormatted = money.New(a.BalanceValue, a.BalanceCurrency).Display()
+	return &resp
 }

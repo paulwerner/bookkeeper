@@ -46,6 +46,7 @@ require (
 )
 
 require (
+	github.com/Rhymond/go-money v1.0.6
 	github.com/gofiber/fiber/v2 v2.33.0
 	github.com/gofiber/jwt/v2 v2.2.7
 	github.com/golang-jwt/jwt/v4 v4.4.1
