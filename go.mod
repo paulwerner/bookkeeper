@@ -47,6 +47,7 @@ require (
 
 require (
 	github.com/gofiber/fiber/v2 v2.33.0
+	github.com/gofiber/jwt/v2 v2.2.7
 	github.com/golang-jwt/jwt/v4 v4.4.1
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
