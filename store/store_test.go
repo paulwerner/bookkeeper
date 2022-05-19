@@ -14,7 +14,6 @@ import (
 
 var db *sql.DB
 
-
 func setWorkingDir() {
 	wd, _ := os.Getwd()
 	// go 1 directory up for migrations to be found
@@ -28,12 +27,12 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	
+
 	err = ops.RunMigrations(database)
 	if err != nil {
 		log.Fatal(err)
 	}
-	
+
 	db = database
 	errCode := m.Run()
 
@@ -41,11 +40,11 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		log.Printf("failed to close db connection: %s", err)
 	}
-	
+
 	err = container.Terminate(ctx)
 	if err != nil {
 		log.Printf("failed to terminate the tet container: %s", err)
 	}
-	
+
 	os.Exit(errCode)
 }

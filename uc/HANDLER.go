@@ -31,13 +31,7 @@ type AccountLogic interface {
 }
 
 type TransactionLogic interface {
-	TransactionCreate(
-		id d.TransactionID,
-		aID d.AccountID,
-		description *string,
-		amount int64,
-		currency string,
-	) (transaction *d.Transaction, err error)
+	TransactionCreate(tx d.Transaction) (transaction *d.Transaction, err error)
 	TransactionFind(id d.TransactionID, aID d.AccountID) (transaction *d.Transaction, err error)
 }
 

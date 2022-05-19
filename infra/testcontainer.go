@@ -8,9 +8,9 @@ import (
 	"time"
 
 	"github.com/docker/go-connections/nat"
+	_ "github.com/lib/pq"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
-	_ "github.com/lib/pq"
 )
 
 func CreatePostgresTestContainer(

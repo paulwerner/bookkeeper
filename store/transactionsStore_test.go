@@ -10,6 +10,7 @@ import (
 
 func TestTransactionCreateWithoutDescription(t *testing.T) {
 	// given
+	defer utils.ClearDB(db)
 	asserts := assert.New(t)
 
 	uID := utils.RandomUserID()
@@ -18,7 +19,7 @@ func TestTransactionCreateWithoutDescription(t *testing.T) {
 	aID := utils.RandomAccountID()
 	a := d.NewAccount(aID, *u, "Main Account", nil, d.CHECKING, int64(23), "EUR")
 	utils.PopulateAccount(a, db)
-	
+
 	id := utils.RandomTransactionID()
 	amount := int64(23)
 	currency := "EUR"
@@ -35,13 +36,11 @@ func TestTransactionCreateWithoutDescription(t *testing.T) {
 	asserts.Nil(result.Description)
 	asserts.Equal(amount, result.Amount)
 	asserts.Equal(currency, result.Currency)
-
-	// finally
-	utils.ClearDB(db)
 }
 
 func TestTransactionCreateWithDescription(t *testing.T) {
 	// given
+	defer utils.ClearDB(db)
 	asserts := assert.New(t)
 
 	uID := utils.RandomUserID()
@@ -67,7 +66,4 @@ func TestTransactionCreateWithDescription(t *testing.T) {
 	asserts.Nil(result.Description)
 	asserts.Equal(amount, result.Amount)
 	asserts.Equal(currency, result.Currency)
-
-	// finally
-	utils.ClearDB(db)
 }

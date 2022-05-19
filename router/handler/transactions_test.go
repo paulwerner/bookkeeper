@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -84,4 +85,86 @@ func TestTransactionsGet(t *testing.T) {
 	asserts.Equal(txID, respBody.Transaction.ID)
 	asserts.Nil(respBody.Transaction.Description)
 	asserts.Equal("€23.42", respBody.Transaction.AmountFormatted)
+}
+
+func TestTransactionsCreateSuccessful(t *testing.T) {
+	// given
+	defer utils.ClearDB(db)
+	asserts := assert.New(t)
+
+	uID := utils.RandomUserID()
+	u := d.NewUser(uID, "homer", "password")
+	utils.PopulateUser(u, db)
+
+	aID := utils.RandomAccountID()
+	a := d.NewAccount(aID, *u, "Main Account", nil, d.CHECKING, 2342, "EUR")
+	utils.PopulateAccount(a, db)
+
+	tcr := transactionCreateRequest{}
+	tcr.Transaction.Amount = int64(2342)
+	tcr.Transaction.Currency = "EUR"
+	reqBody, err := json.Marshal(tcr)
+	asserts.NoError(err)
+
+	url := fmt.Sprintf("http://localhost:8080/api/accounts/%s/transactions", aID)
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(reqBody))
+	asserts.NoError(err)
+
+	req.Header.Set(createAuthHeader(uID))
+	req.Header.Set("Content-Type", "application/json")
+
+	// when
+	resp, err := app.Test(req)
+
+	// then
+	asserts.NoError(err)
+	asserts.NotNil(resp)
+	asserts.Equal(http.StatusCreated, resp.StatusCode)
+
+	var respBody transactionGetResponse
+	body, err := ioutil.ReadAll(resp.Body)
+	asserts.NoError(err)
+
+	json.Unmarshal(body, &respBody)
+	asserts.NotNil(respBody.Transaction.ID)
+	asserts.Nil(respBody.Transaction.Description)
+	asserts.Equal("€23.42", respBody.Transaction.AmountFormatted)
+}
+
+func TestTransactionsCreateAccountNotFound(t *testing.T) {
+	// given
+	defer utils.ClearDB(db)
+	asserts := assert.New(t)
+
+	uID := utils.RandomUserID()
+	u := d.NewUser(uID, "homer", "password")
+	utils.PopulateUser(u, db)
+
+	tcr := transactionCreateRequest{}
+	tcr.Transaction.Amount = int64(2342)
+	tcr.Transaction.Currency = "EUR"
+	reqBody, err := json.Marshal(tcr)
+	asserts.NoError(err)
+
+	url := fmt.Sprintf("http://localhost:8080/api/accounts/%s/transactions", "invalid")
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(reqBody))
+	asserts.NoError(err)
+
+	req.Header.Set(createAuthHeader(uID))
+	req.Header.Set("Content-Type", "application/json")
+
+	// when
+	resp, err := app.Test(req)
+
+	// then
+	asserts.NoError(err)
+	asserts.NotNil(resp)
+	asserts.Equal(http.StatusNotFound, resp.StatusCode)
+
+	var respBody errorResponse
+	body, err := ioutil.ReadAll(resp.Body)
+	asserts.NoError(err)
+
+	json.Unmarshal(body, &respBody)
+	asserts.Equal("not found", respBody.Errors["msg"])
 }
