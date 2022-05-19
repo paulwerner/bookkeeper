@@ -23,7 +23,7 @@ func TestTransactionCreateWithoutDescription(t *testing.T) {
 	amount := int64(23)
 	currency := "EUR"
 
-	cut := NewtransactionStore(db)
+	cut := NewTransactionStore(db)
 
 	// when
 	result, err := cut.Create(id, aID, nil, amount, currency)
@@ -55,7 +55,7 @@ func TestTransactionCreateWithDescription(t *testing.T) {
 	amount := int64(23)
 	currency := "EUR"
 
-	cut := NewtransactionStore(db)
+	cut := NewTransactionStore(db)
 
 	// when
 	result, err := cut.Create(id, aID, nil, amount, currency)

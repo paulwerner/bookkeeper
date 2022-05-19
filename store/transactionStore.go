@@ -11,7 +11,7 @@ type transactionStore struct {
 	db *sql.DB
 }
 
-func NewtransactionStore(db *sql.DB) uc.TransactionRW {
+func NewTransactionStore(db *sql.DB) uc.TransactionRW {
 	return &transactionStore{
 		db: db,
 	}
