@@ -3,8 +3,10 @@ package handler
 import (
 	"strings"
 
+	"github.com/gofiber/fiber/v2"
 	d "github.com/paulwerner/bookkeeper/domain"
 	"github.com/paulwerner/bookkeeper/uc"
+	"github.com/paulwerner/bookkeeper/utils"
 )
 
 type Handler struct {
@@ -33,4 +35,12 @@ func getJWT(authHeader string) (string, error) {
 		return "", d.ErrInvalidAccessToken
 	}
 	return splitted[1], nil
+}
+
+func (h *Handler) getUserIDFromRequest(c *fiber.Ctx) (d.UserID, error) {
+	token, err := getJWT(c.Get("Authorization"))
+	if err != nil {
+		return "", err
+	}
+	return utils.GetUserIDFromToken(token)
 }
