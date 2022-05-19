@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/paulwerner/bookkeeper/infra"
 	"github.com/paulwerner/bookkeeper/ops"
@@ -12,30 +13,20 @@ import (
 )
 
 const (
-	host     = "localhost"
-	port     = "5432"
-	user     = "postgres"
-	password = "pass"
-	dbname   = "bookkeeperdb"
-	sslmode  = "disable"
-
 	serverHost = "http://localhost"
 	serverPort = "8080"
 )
 
 func main() {
 	db := infra.SetupPostgreSQLDatabase(
-		host,
-		port,
-		user,
-		password,
-		dbname,
-		sslmode,
-	)
+		os.Getenv("DB_HOST"),
+		os.Getenv("DB_PORT"),
+		os.Getenv("DB_USER"),
+		os.Getenv("DB_PASSWORD"),
+		os.Getenv("DB_NAME"),
+		os.Getenv("DB_SSLMODE"))
 	defer db.Close()
-	if err := ops.RunMigrations(db); err != nil {
-		panic(err)
-	}
+	ops.RunMigrations(db)
 
 	aH := security.NewAuthHandler()
 	us := store.NewUserStore(db)
@@ -46,6 +37,9 @@ func main() {
 	server := infra.NewFiberServer()
 	h.Register(server)
 
-	addr := fmt.Sprintf("%s:%s", serverHost, serverPort)
+	addr := fmt.Sprintf(
+		"%s:%s",
+		os.Getenv("SERVER_HOST"),
+		os.Getenv("SERVER_PORT"))
 	log.Fatal(server.Listen(addr))
 }
