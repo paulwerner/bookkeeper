@@ -29,3 +29,13 @@ func newUserLoginResponse(u *d.User, token string) *userLoginResponse {
 	resp.Token = token
 	return &resp
 }
+
+type appConfigResponse struct {
+	SupportedAccountTypes []d.AccountType `json:"supported_account_types"`
+}
+
+func newAppConfigResponse(c *d.AppConfig) *appConfigResponse {
+	return &appConfigResponse{
+		SupportedAccountTypes: c.SupportedAccountTypes,
+	}
+}

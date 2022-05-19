@@ -14,10 +14,10 @@ func NewJWT() fiber.Handler {
 			SigningKey: []byte(os.Getenv("JWT_SECRET")),
 			ErrorHandler: func(c *fiber.Ctx, err error) error {
 				if err.Error() == "Missing or malformed JWT" {
-					return c.Status(fiber.StatusBadRequest).
+					return c.Status(fiber.StatusForbidden).
 						JSON(fiber.Map{
 							"errors": fiber.Map{
-								"msg": "Missing or malformed JWT",
+								"msg": "missing or malformed JWT",
 							},
 						})
 
@@ -25,7 +25,7 @@ func NewJWT() fiber.Handler {
 					return c.Status(fiber.StatusUnauthorized).
 						JSON(fiber.Map{
 							"errors": fiber.Map{
-								"msg": "Invalid or expired JWT",
+								"msg": "invalid or expired JWT",
 							},
 						})
 				}

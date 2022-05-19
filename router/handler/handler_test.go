@@ -3,16 +3,19 @@ package handler
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
 	"testing"
 
 	"github.com/gofiber/fiber/v2"
+	d "github.com/paulwerner/bookkeeper/domain"
 	"github.com/paulwerner/bookkeeper/infra"
 	"github.com/paulwerner/bookkeeper/ops"
 	"github.com/paulwerner/bookkeeper/security"
 	"github.com/paulwerner/bookkeeper/store"
+	"github.com/paulwerner/bookkeeper/utils"
 )
 
 var app *fiber.App
@@ -22,6 +25,12 @@ func setWorkingDir() {
 	wd, _ := os.Getwd()
 	// go 2 directories up for migrations to be found
 	os.Chdir(filepath.Dir(filepath.Dir(wd)))
+}
+
+func createAuthHeader(id d.UserID) (string, string) {
+	token, _ := utils.GenUserToken(id)
+	bearer := fmt.Sprintf("Bearer %s", token)
+	return "Authorization", bearer
 }
 
 func TestMain(m *testing.M) {
