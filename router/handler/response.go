@@ -114,3 +114,15 @@ type transactionGetResponse struct {
 func newTransactionGetResponse(tx *d.Transaction) *transactionGetResponse {
 	return &transactionGetResponse{*newTransactionResponse(tx)}
 }
+
+type transactionsGetResponse struct {
+	Transactions []transactionResponse `json:"transactions"`
+}
+
+func newTransactionsGetResponse(txs []d.Transaction) *transactionsGetResponse {
+	var tgr transactionsGetResponse
+	for _, tx := range txs {
+		tgr.Transactions = append(tgr.Transactions, *newTransactionResponse(&tx))
+	}
+	return &tgr
+}

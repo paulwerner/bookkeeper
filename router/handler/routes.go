@@ -28,6 +28,7 @@ func (h *Handler) Register(r *fiber.App) {
 
 	// transactions
 	transactions := account.Group("/transactions", jwtMW)
+	transactions.Get("", h.TransactionsGet)
 	transactions.Post("", h.TransactionCreate)
 	transactions.Get("/:transaction_id", h.TransactionGet)
 

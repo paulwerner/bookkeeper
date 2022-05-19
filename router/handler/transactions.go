@@ -40,6 +40,39 @@ func (h *Handler) TransactionGet(c *fiber.Ctx) error {
 		JSON(newTransactionGetResponse(tx))
 }
 
+func (h *Handler) TransactionsGet(c *fiber.Ctx) error {
+	// get auth token from header
+	token, err := getJWT(c.Get("Authorization"))
+	if err != nil {
+		errBody, sc := newErrorResponse(err)
+		return c.Status(sc).JSON(errBody)
+	}
+	// get authorized user
+	uID, err := utils.GetUserIDFromToken(token)
+	if err != nil {
+		errBody, sc := newErrorResponse(err)
+		return c.Status(sc).JSON(errBody)
+	}
+	ok := h.useCases.UserExists(uID)
+	if err != nil {
+		errBody, sc := newErrorResponse(err)
+		return c.Status(sc).JSON(errBody)
+	}
+	if !ok {
+		errBody, sc := newErrorResponse(d.ErrNotFound)
+		return c.Status(sc).JSON(errBody)
+	}
+	// find transaction
+	aID := d.AccountID(c.Params("account_id"))
+	txs, err := h.useCases.TransactionsFind(aID)
+	if err != nil {
+		errBody, sc := newErrorResponse(err)
+		return c.Status(sc).JSON(errBody)
+	}
+	return c.Status(fiber.StatusOK).
+		JSON(newTransactionsGetResponse(txs))
+}
+
 func (h *Handler) TransactionCreate(c *fiber.Ctx) error {
 	// get auth token from header
 	token, err := getJWT(c.Get("Authorization"))

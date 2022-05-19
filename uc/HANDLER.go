@@ -33,6 +33,7 @@ type AccountLogic interface {
 type TransactionLogic interface {
 	TransactionCreate(tx d.Transaction) (transaction *d.Transaction, err error)
 	TransactionFind(id d.TransactionID, aID d.AccountID) (transaction *d.Transaction, err error)
+	TransactionsFind(aID d.AccountID) (transactions []d.Transaction, err error)
 }
 
 type HandlerConstructor struct {

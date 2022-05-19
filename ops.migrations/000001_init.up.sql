@@ -30,3 +30,5 @@ CREATE TABLE IF NOT EXISTS transactions(
 );
 
 CREATE INDEX idx_transactions_id_account_id ON transactions(id, account_id);
+
+CREATE INDEX idx_transactions_account_id ON transactions(account_id);

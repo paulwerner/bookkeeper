@@ -47,4 +47,5 @@ type TransactionRW interface {
 		amountCurrency string,
 	) (tx *d.Transaction, err error)
 	FindByIDAndAccount(id d.TransactionID, aID d.AccountID) (tx *d.Transaction, err error)
+	FindAll(aID d.AccountID) (txs []d.Transaction, err error)
 }

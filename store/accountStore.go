@@ -52,18 +52,19 @@ func (as *accountStore) FindAll(uID d.UserID) (accounts []d.Account, err error) 
 	FROM accounts
 	WHERE user_id=$1`
 	rows, err := as.db.Query(sqlStatement, uID)
+	defer rows.Close()
 	if err != nil && err != sql.ErrNoRows {
 		err = d.ErrInternalError
 		return
 	}
 	for rows.Next() {
-		var account d.Account
-		err = rows.Scan(&account.ID, &account.Name, &account.Description, &account.Type, &account.BalanceValue, &account.BalanceCurrency)
+		var a d.Account
+		err = rows.Scan(&a.ID, &a.Name, &a.Description, &a.Type, &a.BalanceValue, &a.BalanceCurrency)
 		if err != nil {
 			err = d.ErrInternalError
 			return
 		}
-		accounts = append(accounts, account)
+		accounts = append(accounts, a)
 	}
 	return
 }
