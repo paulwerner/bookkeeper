@@ -18,7 +18,7 @@ func TestAppConfigGet(t *testing.T) {
 	id := utils.RandomUserID()
 	u := d.NewUser(id, "homer", "password")
 	utils.PopulateUser(u, db)
-	req, err := http.NewRequest("GET", "http://localhost:8080/api/app/config", nil)
+	req, err := http.NewRequest("GET", "http://localhost:8080/api/config", nil)
 	asserts.NoError(err)
 	req.Header.Add(createAuthHeader(id))
 
@@ -49,7 +49,7 @@ func TestAppConfigGetUnauthorizedFails(t *testing.T) {
 	id := utils.RandomUserID()
 	u := d.NewUser(id, "homer", "password")
 	utils.PopulateUser(u, db)
-	req, err := http.NewRequest("GET", "http://localhost:8080/api/app/config", nil)
+	req, err := http.NewRequest("GET", "http://localhost:8080/api/config", nil)
 	asserts.NoError(err)
 
 	// when

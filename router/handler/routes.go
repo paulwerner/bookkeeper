@@ -12,8 +12,8 @@ func (h *Handler) Register(r *fiber.App) {
 	guestUsers.Post("", h.SignUp)
 	guestUsers.Post("/login", h.Login)
 
-	app := v1.Group("/app", jwtMW)
-	app.Get("/config", h.AppConfig)
+	app := v1.Group("/config", jwtMW)
+	app.Get("", h.ConfigGet)
 
 	accounts := v1.Group("/accounts", jwtMW)
 	accounts.Post("", h.AccountsCreate)
