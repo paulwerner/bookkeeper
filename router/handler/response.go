@@ -58,6 +58,7 @@ func newAccountCreateResponse(a *d.Account) *accountCreateResponse {
 	resp.Account.ID = a.ID
 	resp.Account.Name = a.Name
 	resp.Account.Description = a.Description
+	resp.Account.Type = a.Type
 	resp.Account.BalanceFormatted = money.New(a.BalanceValue, a.BalanceCurrency).Display()
 	return &resp
 }

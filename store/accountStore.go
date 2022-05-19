@@ -17,7 +17,7 @@ func NewAccountStore(db *sql.DB) uc.AccountRW {
 	}
 }
 
-func (self *accountStore) Create(
+func (as *accountStore) Create(
 	id d.AccountID,
 	uID d.UserID,
 	name string,
@@ -35,13 +35,13 @@ func (self *accountStore) Create(
 		balance_value, 
 		balance_currency
 	) VALUES ($1, $2, $3, $4, $5, $6, $7)`
-	if _, err := self.db.Exec(sqlStatement, id, uID, name, description, accountType, currentBalanceValue, currentBalanceCurrency); err != nil {
+	if _, err := as.db.Exec(sqlStatement, id, uID, name, description, accountType, currentBalanceValue, currentBalanceCurrency); err != nil {
 		return nil, err
 	}
-	return self.FindByIDAndUser(id, uID)
+	return as.FindByIDAndUser(id, uID)
 }
 
-func (self *accountStore) FindByIDAndUser(id d.AccountID, uID d.UserID) (*d.Account, error) {
+func (as *accountStore) FindByIDAndUser(id d.AccountID, uID d.UserID) (*d.Account, error) {
 	var account d.Account
 	sqlStatement := `SELECT 
 		id, 
@@ -52,7 +52,7 @@ func (self *accountStore) FindByIDAndUser(id d.AccountID, uID d.UserID) (*d.Acco
 		balance_currency 
 	FROM accounts 
 	WHERE id=$1 AND user_id=$2`
-	if err := self.db.QueryRow(sqlStatement, id, uID).
+	if err := as.db.QueryRow(sqlStatement, id, uID).
 		Scan(&account.ID, &account.Name, &account.Description, &account.Type, &account.BalanceValue, &account.BalanceCurrency); err != nil {
 		switch err {
 		case sql.ErrNoRows:
@@ -65,7 +65,7 @@ func (self *accountStore) FindByIDAndUser(id d.AccountID, uID d.UserID) (*d.Acco
 	return &account, nil
 }
 
-func (self *accountStore) FindByUserAndName(uID d.UserID, name string) (*d.Account, error) {
+func (as *accountStore) FindByUserAndName(uID d.UserID, name string) (*d.Account, error) {
 	var account d.Account
 	sqlStatement := `SELECT 
 		id, 
@@ -76,7 +76,7 @@ func (self *accountStore) FindByUserAndName(uID d.UserID, name string) (*d.Accou
 		balance_currency 
 	FROM accounts 
 	WHERE user_id=$1 AND name=$2`
-	if err := self.db.QueryRow(sqlStatement, uID, name).
+	if err := as.db.QueryRow(sqlStatement, uID, name).
 		Scan(&account.ID, &account.Name, &account.Description, &account.Type, &account.BalanceValue, &account.BalanceCurrency); err != nil {
 		switch err {
 		case sql.ErrNoRows:

@@ -1,6 +1,11 @@
 package handler
 
-import "github.com/paulwerner/bookkeeper/uc"
+import (
+	"strings"
+
+	d "github.com/paulwerner/bookkeeper/domain"
+	"github.com/paulwerner/bookkeeper/uc"
+)
 
 type Handler struct {
 	useCases uc.Handler
@@ -20,4 +25,12 @@ func NewHandler(
 			TransactionRW: txRW,
 		}.New(),
 	}
+}
+
+func getJWT(authHeader string) (string, error) {
+	splitted := strings.Split(authHeader, "Bearer ")
+	if len(splitted) != 2 {
+		return "", d.ErrInvalidAccessToken
+	}
+	return splitted[1], nil
 }

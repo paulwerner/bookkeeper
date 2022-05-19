@@ -52,14 +52,12 @@ func (r *accountCreateRequest) bind(c *fiber.Ctx, u d.User, a *d.Account) error 
 	if err := c.BodyParser(r); err != nil {
 		return d.ErrInvalidEntity
 	}
-	a = d.NewAccount(
-		utils.RandomAccountID(),
-		u,
-		r.Account.Name,
-		r.Account.Description,
-		r.Account.Type,
-		r.Account.CurrentBalance.Value,
-		r.Account.CurrentBalance.Currency,
-	)
+	a.ID = utils.RandomAccountID()
+	a.User = u
+	a.Name = r.Account.Name
+	a.Description = r.Account.Description
+	a.Type = r.Account.Type
+	a.BalanceValue = r.Account.CurrentBalance.Value
+	a.BalanceCurrency = r.Account.CurrentBalance.Currency
 	return nil
 }
