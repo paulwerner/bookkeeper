@@ -7,7 +7,7 @@ func (i interactor) UserLogin(name, password string) (user *d.User, token string
 	if err != nil {
 		return
 	}
-	if ok := i.authHandler.CheckPassword(password, user.Password); !ok {
+	if ok := i.authHandler.CheckPassword(user.Password, password); !ok {
 		err = d.ErrInvalidPassword
 		return
 	}

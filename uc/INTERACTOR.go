@@ -13,7 +13,7 @@ type AuthHandler interface {
 	GenUserToken(id d.UserID) (token string, err error)
 	GetUserID(token string) (id d.UserID, err error)
 	EncryptPassword(password string) (encryptedPassword string, err error)
-	CheckPassword(password, hashedPassword string) (ok bool)
+	CheckPassword(hashedPassword, password string) (ok bool)
 }
 
 type UserRW interface {

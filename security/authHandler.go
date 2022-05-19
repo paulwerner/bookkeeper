@@ -18,8 +18,8 @@ func NewAuthHandler() uc.AuthHandler {
 	return &authHandler{}
 }
 
-func (*authHandler) CheckPassword(password string, hashedPassword string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(password), []byte(hashedPassword))
+func (*authHandler) CheckPassword(hashedPassword, password string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
 	return err == nil
 }
 
