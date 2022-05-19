@@ -1,6 +1,6 @@
 package uc
 
-import d "github.com/paulwerner/bookkeeper/domain"
+import d "github.com/paulwerner/bookkeeper/pkg/domain"
 
 func (i interactor) TransactionCreate(tx d.Transaction) (*d.Transaction, error) {
 	newTx, err := i.transactionRW.Create(

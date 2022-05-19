@@ -3,8 +3,8 @@ package store
 import (
 	"database/sql"
 
-	d "github.com/paulwerner/bookkeeper/domain"
-	"github.com/paulwerner/bookkeeper/uc"
+	d "github.com/paulwerner/bookkeeper/pkg/domain"
+	"github.com/paulwerner/bookkeeper/pkg/uc"
 )
 
 type userStore struct {

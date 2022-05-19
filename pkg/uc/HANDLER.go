@@ -3,7 +3,7 @@ package uc
 import (
 	"log"
 
-	d "github.com/paulwerner/bookkeeper/domain"
+	d "github.com/paulwerner/bookkeeper/pkg/domain"
 )
 
 type Handler interface {

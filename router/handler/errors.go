@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	d "github.com/paulwerner/bookkeeper/domain"
+	d "github.com/paulwerner/bookkeeper/pkg/domain"
 )
 
 type errorResponse struct {

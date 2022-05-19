@@ -1,6 +1,6 @@
 package uc
 
-import d "github.com/paulwerner/bookkeeper/domain"
+import d "github.com/paulwerner/bookkeeper/pkg/domain"
 
 func (i interactor) AccountCreate(a d.Account) (account *d.Account, err error) {
 	user, err := i.accountRW.FindByUserAndName(a.User.ID, a.Name)

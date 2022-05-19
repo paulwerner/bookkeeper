@@ -2,7 +2,7 @@ package handler
 
 import (
 	"github.com/gofiber/fiber/v2"
-	d "github.com/paulwerner/bookkeeper/domain"
+	d "github.com/paulwerner/bookkeeper/pkg/domain"
 )
 
 func (h *Handler) AccountsCreate(c *fiber.Ctx) error {

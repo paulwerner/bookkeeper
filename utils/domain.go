@@ -2,7 +2,7 @@ package utils
 
 import (
 	"github.com/google/uuid"
-	d "github.com/paulwerner/bookkeeper/domain"
+	d "github.com/paulwerner/bookkeeper/pkg/domain"
 )
 
 func RandomUserID() d.UserID {

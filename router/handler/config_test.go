@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"testing"
 
-	d "github.com/paulwerner/bookkeeper/domain"
+	d "github.com/paulwerner/bookkeeper/pkg/domain"
 	"github.com/paulwerner/bookkeeper/utils"
 	"github.com/stretchr/testify/assert"
 )

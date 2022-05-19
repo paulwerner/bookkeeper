@@ -4,8 +4,8 @@ import (
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
-	d "github.com/paulwerner/bookkeeper/domain"
-	"github.com/paulwerner/bookkeeper/uc"
+	d "github.com/paulwerner/bookkeeper/pkg/domain"
+	"github.com/paulwerner/bookkeeper/pkg/uc"
 	"github.com/paulwerner/bookkeeper/utils"
 )
 

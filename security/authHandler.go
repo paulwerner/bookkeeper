@@ -1,8 +1,8 @@
 package security
 
 import (
-	d "github.com/paulwerner/bookkeeper/domain"
-	"github.com/paulwerner/bookkeeper/uc"
+	d "github.com/paulwerner/bookkeeper/pkg/domain"
+	"github.com/paulwerner/bookkeeper/pkg/uc"
 	"github.com/paulwerner/bookkeeper/utils"
 	"golang.org/x/crypto/bcrypt"
 )

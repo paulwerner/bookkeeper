@@ -1,6 +1,6 @@
 package uc
 
-import d "github.com/paulwerner/bookkeeper/domain"
+import d "github.com/paulwerner/bookkeeper/pkg/domain"
 
 func (i interactor) TransactionFind(id d.TransactionID, aID d.AccountID) (*d.Transaction, error) {
 	tx, err := i.transactionRW.FindByIDAndAccount(id, aID)

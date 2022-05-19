@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"log"
 
-	d "github.com/paulwerner/bookkeeper/domain"
+	d "github.com/paulwerner/bookkeeper/pkg/domain"
 )
 
 func ClearDB(db *sql.DB) {

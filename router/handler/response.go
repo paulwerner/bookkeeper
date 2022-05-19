@@ -2,7 +2,7 @@ package handler
 
 import (
 	"github.com/Rhymond/go-money"
-	d "github.com/paulwerner/bookkeeper/domain"
+	d "github.com/paulwerner/bookkeeper/pkg/domain"
 )
 
 // User
