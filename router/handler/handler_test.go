@@ -40,11 +40,7 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		panic(err)
 	}
-
-	err = ops.RunMigrations(database)
-	if err != nil {
-		panic(err)
-	}
+	ops.RunMigrations(database)
 
 	aH := security.NewAuthHandler()
 	uRW := store.NewUserStore(database)

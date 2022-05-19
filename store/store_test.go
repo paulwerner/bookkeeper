@@ -27,11 +27,7 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	err = ops.RunMigrations(database)
-	if err != nil {
-		log.Fatal(err)
-	}
+	ops.RunMigrations(database)
 
 	db = database
 	errCode := m.Run()

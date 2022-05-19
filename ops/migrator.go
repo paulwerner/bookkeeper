@@ -13,7 +13,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func RunMigrations(db *sql.DB) error {
+func RunMigrations(db *sql.DB) {
 	driver, err := postgres.WithInstance(db, &postgres.Config{})
 	if err != nil {
 		log.Fatal(err)
@@ -28,5 +28,7 @@ func RunMigrations(db *sql.DB) error {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return m.Up()
+	if err := m.Up(); err != nil && err.Error() != "no change" {
+		log.Fatal(err)
+	}
 }
