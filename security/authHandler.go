@@ -37,7 +37,7 @@ func (*authHandler) EncryptPassword(password string) (string, error) {
 func (*authHandler) GenUserToken(id d.UserID) (token string, err error) {
 	token, err = jwt.
 		NewWithClaims(jwt.SigningMethodHS256, newUserClaims(id, tokenTimeToLive)).
-		SignedString(os.Getenv("JWT_SECRET"))
+		SignedString([]byte(os.Getenv("JWT_SECRET")))
 	return
 }
 
