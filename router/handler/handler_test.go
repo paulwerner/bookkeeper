@@ -43,11 +43,11 @@ func TestMain(m *testing.M) {
 	ops.RunMigrations(database)
 
 	aH := security.NewAuthHandler()
-	uRW := store.NewUserStore(database)
-	aRW := store.NewAccountStore(database)
-	txRW := store.NewTransactionStore(database)
+	us := store.NewUserStore(database)
+	as := store.NewAccountStore(database)
+	ts := store.NewTransactionStore(database)
 
-	h := NewHandler(aH, uRW, aRW, txRW)
+	h := NewHandler(aH, us, as, ts)
 	server := infra.NewFiberServer()
 
 	h.Register(server)

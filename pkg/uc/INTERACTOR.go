@@ -3,10 +3,10 @@ package uc
 import d "github.com/paulwerner/bookkeeper/pkg/domain"
 
 type interactor struct {
-	authHandler   AuthHandler
-	userRW        UserRW
-	accountRW     AccountRW
-	transactionRW TransactionRW
+	authHandler      AuthHandler
+	userStore        UserStore
+	accountStore     AccountStore
+	transactionStore TransactionStore
 }
 
 type AuthHandler interface {
@@ -16,14 +16,14 @@ type AuthHandler interface {
 	CheckPassword(hashedPassword, password string) (ok bool)
 }
 
-type UserRW interface {
+type UserStore interface {
 	Create(id d.UserID, name, password string) (user *d.User, err error)
 	Exists(id d.UserID) (ok bool, err error)
 	FindByID(id d.UserID) (user *d.User, err error)
 	FindByName(name string) (user *d.User, err error)
 }
 
-type AccountRW interface {
+type AccountStore interface {
 	Create(
 		id d.AccountID,
 		uID d.UserID,
@@ -38,7 +38,7 @@ type AccountRW interface {
 	FindByIDAndUser(id d.AccountID, uID d.UserID) (account *d.Account, err error)
 }
 
-type TransactionRW interface {
+type TransactionStore interface {
 	Create(
 		id d.TransactionID,
 		aID d.AccountID,

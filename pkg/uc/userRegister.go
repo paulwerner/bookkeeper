@@ -8,7 +8,7 @@ func (i interactor) UserRegister(id d.UserID, name, password string) (user *d.Us
 		return
 	}
 
-	foundUser, err := i.userRW.FindByName(name)
+	foundUser, err := i.userStore.FindByName(name)
 	if err != nil && err != d.ErrNotFound {
 		return
 	}
@@ -22,7 +22,7 @@ func (i interactor) UserRegister(id d.UserID, name, password string) (user *d.Us
 		return
 	}
 
-	user, err = i.userRW.Create(id, name, encryptedPassword)
+	user, err = i.userStore.Create(id, name, encryptedPassword)
 	if err != nil {
 		return
 	}

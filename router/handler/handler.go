@@ -15,16 +15,16 @@ type Handler struct {
 
 func NewHandler(
 	aH uc.AuthHandler,
-	uRW uc.UserRW,
-	aRW uc.AccountRW,
-	txRW uc.TransactionRW,
+	us uc.UserStore,
+	as uc.AccountStore,
+	ts uc.TransactionStore,
 ) *Handler {
 	return &Handler{
 		useCases: uc.HandlerConstructor{
-			AuthHandler:   aH,
-			UserRW:        uRW,
-			AccountRW:     aRW,
-			TransactionRW: txRW,
+			AuthHandler:      aH,
+			UserStore:        us,
+			AccountStore:     as,
+			TransactionStore: ts,
 		}.New(),
 	}
 }

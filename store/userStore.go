@@ -11,7 +11,7 @@ type userStore struct {
 	db *sql.DB
 }
 
-func NewUserStore(db *sql.DB) uc.UserRW {
+func NewUserStore(db *sql.DB) uc.UserStore {
 	return &userStore{
 		db: db,
 	}

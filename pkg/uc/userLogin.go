@@ -3,7 +3,7 @@ package uc
 import d "github.com/paulwerner/bookkeeper/pkg/domain"
 
 func (i interactor) UserLogin(name, password string) (user *d.User, token string, err error) {
-	user, err = i.userRW.FindByName(name)
+	user, err = i.userStore.FindByName(name)
 	if err != nil {
 		return
 	}

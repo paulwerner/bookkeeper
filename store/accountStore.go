@@ -11,7 +11,7 @@ type accountStore struct {
 	db *sql.DB
 }
 
-func NewAccountStore(db *sql.DB) uc.AccountRW {
+func NewAccountStore(db *sql.DB) uc.AccountStore {
 	return &accountStore{
 		db: db,
 	}

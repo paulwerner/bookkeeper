@@ -37,29 +37,29 @@ type TransactionLogic interface {
 }
 
 type HandlerConstructor struct {
-	AuthHandler   AuthHandler
-	UserRW        UserRW
-	AccountRW     AccountRW
-	TransactionRW TransactionRW
+	AuthHandler      AuthHandler
+	UserStore        UserStore
+	AccountStore     AccountStore
+	TransactionStore TransactionStore
 }
 
 func (hC HandlerConstructor) New() Handler {
 	if hC.AuthHandler == nil {
 		log.Fatal("missing AuthHandler")
 	}
-	if hC.UserRW == nil {
-		log.Fatal("missing UserRW")
+	if hC.UserStore == nil {
+		log.Fatal("missing UserStore")
 	}
-	if hC.AccountRW == nil {
-		log.Fatal("missing AccountRW")
+	if hC.AccountStore == nil {
+		log.Fatal("missing AccountStore")
 	}
-	if hC.TransactionRW == nil {
-		log.Fatal("missing TransactionRW")
+	if hC.TransactionStore == nil {
+		log.Fatal("missing TransactionStore")
 	}
 	return interactor{
-		authHandler:   hC.AuthHandler,
-		userRW:        hC.UserRW,
-		accountRW:     hC.AccountRW,
-		transactionRW: hC.TransactionRW,
+		authHandler:      hC.AuthHandler,
+		userStore:        hC.UserStore,
+		accountStore:     hC.AccountStore,
+		transactionStore: hC.TransactionStore,
 	}
 }

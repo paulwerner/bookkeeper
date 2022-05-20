@@ -3,7 +3,7 @@ package uc
 import d "github.com/paulwerner/bookkeeper/pkg/domain"
 
 func (i interactor) UserFind(id d.UserID) (*d.User, string, error) {
-	user, err := i.userRW.FindByID(id)
+	user, err := i.userStore.FindByID(id)
 	if err != nil {
 		return nil, "", err
 	}
