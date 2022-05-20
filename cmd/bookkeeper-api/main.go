@@ -12,11 +12,6 @@ import (
 	"github.com/paulwerner/bookkeeper/store"
 )
 
-const (
-	serverHost = "http://localhost"
-	serverPort = "8080"
-)
-
 func main() {
 	db := infra.SetupPostgreSQLDatabase(
 		os.Getenv("DB_HOST"),
