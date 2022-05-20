@@ -17,15 +17,7 @@ func NewAccountStore(db *sql.DB) uc.AccountStore {
 	}
 }
 
-func (as *accountStore) Create(
-	id d.AccountID,
-	uID d.UserID,
-	name string,
-	description *string,
-	accountType d.AccountType,
-	currentBalanceValue int64,
-	currentBalanceCurrency string,
-) (*d.Account, error) {
+func (as *accountStore) Create(a d.Account) (*d.Account, error) {
 	sqlStatement := `INSERT INTO accounts (
 		id, 
 		user_id, 
@@ -35,10 +27,10 @@ func (as *accountStore) Create(
 		balance_value, 
 		balance_currency
 	) VALUES ($1, $2, $3, $4, $5, $6, $7)`
-	if _, err := as.db.Exec(sqlStatement, id, uID, name, description, accountType, currentBalanceValue, currentBalanceCurrency); err != nil {
+	if _, err := as.db.Exec(sqlStatement, a.ID, a.User.ID, a.Name, a.Description, a.Type, a.BalanceValue, a.BalanceCurrency); err != nil {
 		return nil, err
 	}
-	return as.FindByIDAndUser(id, uID)
+	return as.FindByIDAndUser(a.ID, a.User.ID)
 }
 
 func (as *accountStore) FindAll(uID d.UserID) (accounts []d.Account, err error) {

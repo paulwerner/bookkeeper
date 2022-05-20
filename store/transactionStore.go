@@ -17,13 +17,7 @@ func NewTransactionStore(db *sql.DB) uc.TransactionStore {
 	}
 }
 
-func (ts *transactionStore) Create(
-	id d.TransactionID,
-	aID d.AccountID,
-	description *string,
-	amount int64,
-	currency string,
-) (*d.Transaction, error) {
+func (ts *transactionStore) Create(tx d.Transaction) (*d.Transaction, error) {
 	sqlStatement := `INSERT INTO transactions (
 		id,
 		account_id,
@@ -31,10 +25,10 @@ func (ts *transactionStore) Create(
 		amount,
 		currency
 	) VALUES ($1, $2, $3, $4, $5)`
-	if _, err := ts.db.Exec(sqlStatement, id, aID, description, amount, currency); err != nil {
+	if _, err := ts.db.Exec(sqlStatement, tx.ID, tx.Account.ID, tx.Description, tx.Amount, tx.Currency); err != nil {
 		return nil, err
 	}
-	return ts.FindByIDAndAccount(id, aID)
+	return ts.FindByIDAndAccount(tx.ID, tx.Account.ID)
 }
 
 func (ts *transactionStore) FindAll(aID d.AccountID) (txs []d.Transaction, err error) {
@@ -65,7 +59,7 @@ func (ts *transactionStore) FindByIDAndAccount(id d.TransactionID, aID d.Account
 		case sql.ErrNoRows:
 			err = d.ErrNotFound
 		default:
-			// err = d.ErrInternalError
+			err = d.ErrInternalError
 		}
 		return nil, err
 	}

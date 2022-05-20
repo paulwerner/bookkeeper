@@ -24,28 +24,14 @@ type UserStore interface {
 }
 
 type AccountStore interface {
-	Create(
-		id d.AccountID,
-		uID d.UserID,
-		name string,
-		description *string,
-		accountType d.AccountType,
-		currentBalanceValue int64,
-		currentBalanceCurrency string,
-	) (account *d.Account, err error)
+	Create(a d.Account) (account *d.Account, err error)
 	FindAll(uID d.UserID) (accounts []d.Account, err error)
 	FindByUserAndName(uID d.UserID, name string) (account *d.Account, err error)
 	FindByIDAndUser(id d.AccountID, uID d.UserID) (account *d.Account, err error)
 }
 
 type TransactionStore interface {
-	Create(
-		id d.TransactionID,
-		aID d.AccountID,
-		description *string,
-		amountValue int64,
-		amountCurrency string,
-	) (tx *d.Transaction, err error)
-	FindByIDAndAccount(id d.TransactionID, aID d.AccountID) (tx *d.Transaction, err error)
+	Create(tx d.Transaction) (transaction *d.Transaction, err error)
+	FindByIDAndAccount(id d.TransactionID, aID d.AccountID) (transaction *d.Transaction, err error)
 	FindAll(aID d.AccountID) (txs []d.Transaction, err error)
 }

@@ -12,14 +12,6 @@ func (i interactor) AccountCreate(a d.Account) (account *d.Account, err error) {
 		err = d.ErrAlreadyInUse
 		return
 	}
-	account, err = i.accountStore.Create(
-		a.ID,
-		a.User.ID,
-		a.Name,
-		a.Description,
-		a.Type,
-		a.BalanceValue,
-		a.BalanceCurrency,
-	)
+	account, err = i.accountStore.Create(a)
 	return
 }
