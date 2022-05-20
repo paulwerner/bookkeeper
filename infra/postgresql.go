@@ -9,7 +9,8 @@ import (
 func SetupPostgreSQLDatabase(host, port, user, password, dbname, sslmode string) *sql.DB {
 	psqlInfo := fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
-		host, port, user, password, dbname, sslmode)
+		host, port, user, password, dbname, sslmode,
+	)
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
 		log.Fatal(err)

@@ -19,7 +19,8 @@ func main() {
 		os.Getenv("DB_USER"),
 		os.Getenv("DB_PASSWORD"),
 		os.Getenv("DB_NAME"),
-		os.Getenv("DB_SSLMODE"))
+		os.Getenv("DB_SSLMODE"),
+	)
 	defer db.Close()
 	ops.RunMigrations(db)
 
@@ -35,6 +36,7 @@ func main() {
 	addr := fmt.Sprintf(
 		"%s:%s",
 		os.Getenv("SERVER_HOST"),
-		os.Getenv("SERVER_PORT"))
+		os.Getenv("SERVER_PORT"),
+	)
 	log.Fatal(server.Listen(addr))
 }
