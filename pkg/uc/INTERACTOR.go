@@ -25,6 +25,7 @@ type UserStore interface {
 
 type AccountStore interface {
 	Create(a d.Account) (account *d.Account, err error)
+	Update(a d.Account) (account *d.Account, err error)
 	FindAll(uID d.UserID) (accounts []d.Account, err error)
 	FindByUserAndName(uID d.UserID, name string) (account *d.Account, err error)
 	FindByIDAndUser(id d.AccountID, uID d.UserID) (account *d.Account, err error)

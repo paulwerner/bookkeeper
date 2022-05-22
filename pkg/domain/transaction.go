@@ -25,3 +25,7 @@ func NewTransaction(
 		Currency:    currency,
 	}
 }
+
+func (tx *Transaction) UpdateAccountBalance() {
+	tx.Account.BalanceValue += tx.Amount
+}

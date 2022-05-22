@@ -149,7 +149,7 @@ func TestTransactionsCreateSuccessful(t *testing.T) {
 	utils.PopulateUser(u, db)
 
 	aID := utils.RandomAccountID()
-	a := d.NewAccount(aID, *u, "Main Account", nil, d.CHECKING, 2342, "EUR")
+	a := d.NewAccount(aID, *u, "Main Account", nil, d.CHECKING, 100, "EUR")
 	utils.PopulateAccount(a, db)
 
 	tcr := transactionCreateRequest{}
@@ -181,6 +181,10 @@ func TestTransactionsCreateSuccessful(t *testing.T) {
 	asserts.NotNil(respBody.Transaction.ID)
 	asserts.Nil(respBody.Transaction.Description)
 	asserts.Equal("€23.42", respBody.Transaction.AmountFormatted)
+
+	persistedAccount := utils.RetrieveAccount(&aID, db)
+	asserts.Equal(int64(2442), persistedAccount.BalanceValue)
+	asserts.Equal("EUR", persistedAccount.BalanceCurrency)
 }
 
 func TestTransactionsCreateAccountNotFound(t *testing.T) {

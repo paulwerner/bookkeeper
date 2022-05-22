@@ -37,6 +37,24 @@ func PopulateAccount(a *d.Account, db *sql.DB) {
 	}
 }
 
+func RetrieveAccount(id *d.AccountID, db *sql.DB) *d.Account {
+	var a d.Account
+	sqlStatement := `SELECT
+		id, 
+		user_id, 
+		name, 
+		description, 
+		type,
+		balance_value, 
+		balance_currency
+	FROM accounts WHERE id=$1`
+	if err := db.QueryRow(sqlStatement, id).
+		Scan(&a.ID, &a.User.ID, &a.Name, &a.Description, &a.Type, &a.BalanceValue, &a.BalanceCurrency); err != nil {
+		log.Fatal(err)
+	}
+	return &a
+}
+
 func PopulateTransaction(tx *d.Transaction, db *sql.DB) {
 	sqlStatement := `INSERT INTO transactions (
 		id, 

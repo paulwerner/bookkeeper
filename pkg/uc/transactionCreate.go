@@ -7,5 +7,10 @@ func (i interactor) TransactionCreate(tx d.Transaction) (*d.Transaction, error) 
 	if err != nil {
 		err = d.ErrInternalError
 	}
+	tx.UpdateAccountBalance()
+	_, err = i.accountStore.Update(tx.Account)
+	if err != nil {
+		// err = d.ErrInternalError
+	}
 	return newTx, err
 }

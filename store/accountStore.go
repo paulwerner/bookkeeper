@@ -33,9 +33,24 @@ func (as *accountStore) Create(a d.Account) (*d.Account, error) {
 	return as.FindByIDAndUser(a.ID, a.User.ID)
 }
 
+func (as *accountStore) Update(a d.Account) (account *d.Account, err error) {
+	sqlStatement := `UPDATE accounts 
+	SET name=$2, 
+		description=$3, 
+		type=$4, 
+		balance_value=$5, 
+		balance_currency=$6
+	WHERE id=$1`
+	if _, err := as.db.Exec(sqlStatement, a.ID, a.Name, a.Description, a.Type, a.BalanceValue, a.BalanceCurrency); err != nil {
+		return nil, err
+	}
+	return as.FindByIDAndUser(a.ID, a.User.ID)
+}
+
 func (as *accountStore) FindAll(uID d.UserID) (accounts []d.Account, err error) {
 	sqlStatement := `SELECT 
 		id,
+		user_id,
 		name,
 		description,
 		type,
@@ -51,7 +66,7 @@ func (as *accountStore) FindAll(uID d.UserID) (accounts []d.Account, err error) 
 	}
 	for rows.Next() {
 		var a d.Account
-		err = rows.Scan(&a.ID, &a.Name, &a.Description, &a.Type, &a.BalanceValue, &a.BalanceCurrency)
+		err = rows.Scan(&a.ID, &a.User.ID, &a.Name, &a.Description, &a.Type, &a.BalanceValue, &a.BalanceCurrency)
 		if err != nil {
 			err = d.ErrInternalError
 			return
@@ -65,6 +80,7 @@ func (as *accountStore) FindByIDAndUser(id d.AccountID, uID d.UserID) (*d.Accoun
 	var account d.Account
 	sqlStatement := `SELECT 
 		id, 
+		user_id,
 		name, 
 		description, 
 		type, 
@@ -73,7 +89,7 @@ func (as *accountStore) FindByIDAndUser(id d.AccountID, uID d.UserID) (*d.Accoun
 	FROM accounts 
 	WHERE id=$1 AND user_id=$2`
 	if err := as.db.QueryRow(sqlStatement, id, uID).
-		Scan(&account.ID, &account.Name, &account.Description, &account.Type, &account.BalanceValue, &account.BalanceCurrency); err != nil {
+		Scan(&account.ID, &account.User.ID, &account.Name, &account.Description, &account.Type, &account.BalanceValue, &account.BalanceCurrency); err != nil {
 		switch err {
 		case sql.ErrNoRows:
 			err = d.ErrNotFound

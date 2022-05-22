@@ -32,7 +32,7 @@ func (ts *transactionStore) Create(tx d.Transaction) (*d.Transaction, error) {
 }
 
 func (ts *transactionStore) FindAll(aID d.AccountID) (txs []d.Transaction, err error) {
-	sqlStatement := `SELECT id, description, amount, currency FROM transactions WHERE account_id=$1`
+	sqlStatement := `SELECT id, account_id, description, amount, currency FROM transactions WHERE account_id=$1`
 	rows, err := ts.db.Query(sqlStatement, aID)
 	defer rows.Close()
 	if err != nil && err != sql.ErrNoRows {
@@ -41,7 +41,7 @@ func (ts *transactionStore) FindAll(aID d.AccountID) (txs []d.Transaction, err e
 	}
 	for rows.Next() {
 		var tx d.Transaction
-		err = rows.Scan(&tx.ID, &tx.Description, &tx.Amount, &tx.Currency)
+		err = rows.Scan(&tx.ID, &tx.Account.ID, &tx.Description, &tx.Amount, &tx.Currency)
 		if err != nil {
 			err = d.ErrInternalError
 			return
@@ -53,8 +53,9 @@ func (ts *transactionStore) FindAll(aID d.AccountID) (txs []d.Transaction, err e
 
 func (ts *transactionStore) FindByIDAndAccount(id d.TransactionID, aID d.AccountID) (*d.Transaction, error) {
 	var tx d.Transaction
-	sqlStatement := `SELECT id, description, amount, currency FROM transactions WHERE id=$1 AND account_id=$2`
-	if err := ts.db.QueryRow(sqlStatement, id, aID).Scan(&tx.ID, &tx.Description, &tx.Amount, &tx.Currency); err != nil {
+	sqlStatement := `SELECT id, account_id, description, amount, currency FROM transactions WHERE id=$1 AND account_id=$2`
+	if err := ts.db.QueryRow(sqlStatement, id, aID).
+		Scan(&tx.ID, &tx.Account.ID, &tx.Description, &tx.Amount, &tx.Currency); err != nil {
 		switch err {
 		case sql.ErrNoRows:
 			err = d.ErrNotFound
