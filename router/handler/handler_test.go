@@ -10,9 +10,9 @@ import (
 	"testing"
 
 	"github.com/gofiber/fiber/v2"
-	d "github.com/paulwerner/bookkeeper/pkg/domain"
 	"github.com/paulwerner/bookkeeper/infra"
 	"github.com/paulwerner/bookkeeper/ops"
+	d "github.com/paulwerner/bookkeeper/pkg/domain"
 	"github.com/paulwerner/bookkeeper/security"
 	"github.com/paulwerner/bookkeeper/store"
 	"github.com/paulwerner/bookkeeper/utils"
